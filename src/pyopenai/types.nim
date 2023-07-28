@@ -1,8 +1,8 @@
 import json
 
-
 type
     OpenAiClient* = object
+        apiBase*: string
         apiKey*: string
         organization*: string
         userAgent*: string

@@ -1,6 +1,5 @@
 import httpclient, json
 
-import ../consts
 import ../types
 import ../utils
 
@@ -31,7 +30,7 @@ proc createImage*(self: OpenAiClient,
         body.add("user", %user)
 
     let resp = buildHttpClient(self, "application/json").post(
-            OpenAiBaseUrl&"/images/generations", body = $body)
+            self.apiBase&"/images/generations", body = $body)
     case resp.status
         of $Http200:
             return resp.body.parseJson()
@@ -78,7 +77,7 @@ proc createImageEdit*(self: OpenAiClient,
         data.add({"user": user})
 
     let resp = buildHttpClient(self, "multipart/form-data").post(
-            OpenAiBaseUrl&"/images/edits", multipart = data)
+            self.apiBase&"/images/edits", multipart = data)
     case resp.status
         of $Http200:
             return resp.body.parseJson()
@@ -118,7 +117,7 @@ proc createImageVariation*(self: OpenAiClient,
         data.add({"user": user})
 
     let resp = buildHttpClient(self, "multipart/form-data").post(
-            OpenAiBaseUrl&"/images/variations", multipart = data)
+            self.apiBase&"/images/variations", multipart = data)
     case resp.status
         of $Http200:
             return resp.body.parseJson()

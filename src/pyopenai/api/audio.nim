@@ -1,6 +1,5 @@
 import httpclient, json
 
-import ../consts
 import ../types
 import ../utils
 
@@ -30,7 +29,7 @@ proc createAudioTranscription*(self: OpenAiClient,
         data.add({"language": language})
 
     let resp = buildHttpClient(self, "multipart/form-data").post(
-            OpenAiBaseUrl&"/audio/transcriptions", multipart = data)
+            self.apiBase&"/audio/transcriptions", multipart = data)
     case resp.status
         of $Http200:
             return resp.body.parseJson()["text"].str
@@ -65,7 +64,7 @@ proc createAudioTranslation*(self: OpenAiClient,
         data.add({"temperature": $temperature})
 
     let resp = buildHttpClient(self, "multipart/form-data").post(
-            OpenAiBaseUrl&"/audio/translations", multipart = data)
+            self.apiBase&"/audio/translations", multipart = data)
     case resp.status
         of $Http200:
             return resp.body.parseJson()["text"].str

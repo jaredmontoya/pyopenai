@@ -1,6 +1,8 @@
 import pyopenai/types
 export types
 
+import pyopenai/utils
+export utils
 
 import pyopenai/api/models
 export models

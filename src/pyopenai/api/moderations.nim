@@ -1,6 +1,5 @@
 import httpclient, json
 
-import ../consts
 import ../types
 import ../utils
 
@@ -19,7 +18,7 @@ proc createModeration*(self: OpenAiClient,
         body.add("model", %model)
 
     let resp = buildHttpClient(self, "application/json").post(
-            OpenAiBaseUrl&"/moderations", body = $body)
+            self.apiBase&"/moderations", body = $body)
     case resp.status
         of $Http200:
             return resp.body.parseJson()

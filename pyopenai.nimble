@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.0"
+version       = "0.1.1"
 author        = "jaredmontoya"
 description   = "An attempt to reimplement python OpenAI API bindings in nim"
 license       = "MIT"

@@ -1,6 +1,5 @@
 import httpclient, json
 
-import ../consts
 import ../types
 import ../utils
 
@@ -33,7 +32,7 @@ proc createEdit*(self: OpenAiClient,
         body.add("top_p", %topP)
 
     let resp = buildHttpClient(self, "application/json").post(
-            OpenAiBaseUrl&"/edits", body = $body)
+            self.apiBase&"/edits", body = $body)
     case resp.status
         of $Http200:
             return resp.body.parseJson()
