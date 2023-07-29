@@ -1,6 +1,5 @@
 import httpclient, json
 
-import ../consts
 import ../types
 import ../utils
 
@@ -71,7 +70,7 @@ proc createCompletion*(self: OpenAiClient,
         body.add("user", %user)
 
     let resp = buildHttpClient(self, "application/json").post(
-            OpenAiBaseUrl&"/completions", body = $body)
+            self.apiBase&"/completions", body = $body)
     case resp.status
         of $Http200:
             return resp.body.parseJson()
@@ -133,7 +132,7 @@ proc createChatCompletion*(self: OpenAiClient,
         body.add("user", %user)
 
     let resp = buildHttpClient(self, "application/json").post(
-            OpenAiBaseUrl&"/chat/completions", body = $body)
+            self.apiBase&"/chat/completions", body = $body)
     case resp.status
         of $Http200:
             return resp.body.parseJson()

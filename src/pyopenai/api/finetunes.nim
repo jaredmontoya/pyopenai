@@ -1,6 +1,5 @@
 import httpclient, json
 
-import ../consts
 import ../types
 import ../utils
 
@@ -8,7 +7,7 @@ import ../utils
 proc getFineTunes*(self: OpenAiClient): JsonNode =
     ## gets a list of ``FineTune``s
 
-    let resp = buildHttpClient(self).get(OpenAiBaseUrl&"/fine-tunes")
+    let resp = buildHttpClient(self).get(self.apiBase&"/fine-tunes")
     case resp.status
         of $Http200:
             return resp.body.parseJson()
@@ -21,7 +20,7 @@ proc getFineTunes*(self: OpenAiClient): JsonNode =
 proc getFineTune*(self: OpenAiClient, fineTuneId: string): FineTune =
     ## gets a ``FineTune``
 
-    let resp = buildHttpClient(self).get(OpenAiBaseUrl&"/fine-tunes/"&fineTuneId)
+    let resp = buildHttpClient(self).get(self.apiBase&"/fine-tunes/"&fineTuneId)
     case resp.status
         of $Http200:
             return resp.body.parseJson()
@@ -36,7 +35,7 @@ proc getFineTune*(self: OpenAiClient, fineTuneId: string): FineTune =
 proc getFineTuneEvents*(self: OpenAiClient, fineTuneId: string): JsonNode =
     ## gets ``FineTune``'s events
 
-    let resp = buildHttpClient(self).get(OpenAiBaseUrl&"/fine-tunes/"&fineTuneId&"/events")
+    let resp = buildHttpClient(self).get(self.apiBase&"/fine-tunes/"&fineTuneId&"/events")
     case resp.status
         of $Http200:
             return resp.body.parseJson()
@@ -103,7 +102,7 @@ proc createFineTune*(self: OpenAiClient,
         body.add("suffix", %suffix)
 
     let resp = buildHttpClient(self, "application/json").post(
-            OpenAiBaseUrl&"/fine-tunes", body = $body)
+            self.apiBase&"/fine-tunes", body = $body)
     case resp.status
         of $Http200:
             return resp.body.parseJson()
@@ -120,7 +119,7 @@ proc createFineTune*(self: OpenAiClient,
 proc cancelFineTune*(self: OpenAiClient, fineTuneId: string): FineTune =
     ## cancels a ``FineTune``
 
-    let resp = buildHttpClient(self).post(OpenAiBaseUrl&"/fine-tunes/"&fineTuneId&"/cancel")
+    let resp = buildHttpClient(self).post(self.apiBase&"/fine-tunes/"&fineTuneId&"/cancel")
     case resp.status
         of $Http200:
             return resp.body.parseJson()

@@ -1,13 +1,12 @@
 import httpclient, json
 
-import ../consts
 import ../types
 import ../utils
 
 
 proc getFileList*(self: OpenAiClient): JsonNode =
     let resp = buildHttpClient(self).get(
-            OpenAiBaseUrl&"/files")
+            self.apiBase&"/files")
     case resp.status
         of $Http200:
             return resp.body.parseJson()
@@ -30,7 +29,7 @@ proc uploadFile*(self: OpenAiClient,
     data.addFiles({"file": file})
 
     let resp = buildHttpClient(self).post(
-            OpenAiBaseUrl&"/files", multipart = data)
+            self.apiBase&"/files", multipart = data)
     case resp.status
         of $Http200:
             return resp.body.parseJson()
@@ -48,7 +47,7 @@ proc deleteFile*(self: OpenAiClient, fileId: string): JsonNode =
     # deletes the file on openai
 
     let resp = buildHttpClient(self).delete(
-            OpenAiBaseUrl&"/files/"&fileId)
+            self.apiBase&"/files/"&fileId)
     case resp.status
         of $Http200:
             return resp.body.parseJson()
@@ -64,7 +63,7 @@ proc getFile*(self: OpenAiClient, fileId: string): JsonNode =
     # gets information about specified file
 
     let resp = buildHttpClient(self).get(
-            OpenAiBaseUrl&"/files/"&fileId)
+            self.apiBase&"/files/"&fileId)
     case resp.status
         of $Http200:
             return resp.body.parseJson()
@@ -82,6 +81,6 @@ proc downloadFile*(self: OpenAiClient, fileId: string): void =
     let filename: string = self.getFile(fileId)["filename"].str
 
     try:
-        buildHttpClient(self).downloadFile(OpenAiBaseUrl&"/files/"&fileId&"/content", filename)
+        buildHttpClient(self).downloadFile(self.apiBase&"/files/"&fileId&"/content", filename)
     except HttpRequestError:
         raise newException(HttpRequestError, "To help mitigate abuse, downloading of fine-tune training files is disabled for free accounts.")

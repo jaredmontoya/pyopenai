@@ -1,6 +1,13 @@
 import httpclient
 
+import consts
 import types
+
+proc newOpenAiClient*(): OpenAiClient =
+    OpenAiClient(apiBase: OpenAiBaseUrl)
+
+proc newOpenAiClient*(apiKey: string): OpenAiClient =
+    OpenAiClient(apiBase: OpenAiBaseUrl, apiKey: apiKey)
 
 proc buildHttpClient*(client: OpenAiClient, contentType = ""): HttpClient =
 

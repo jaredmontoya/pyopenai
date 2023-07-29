@@ -1,6 +1,5 @@
 import httpclient, json
 
-import ../consts
 import ../types
 import ../utils
 
@@ -21,7 +20,7 @@ proc createEmbedding*(self: OpenAiClient,
         body.add("user", %user)
 
     let resp = buildHttpClient(self, "application/json").post(
-            OpenAiBaseUrl&"/embeddings", body = $body)
+            self.apiBase&"/embeddings", body = $body)
     case resp.status
         of $Http200:
             return resp.body.parseJson()
