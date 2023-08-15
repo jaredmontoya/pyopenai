@@ -13,6 +13,8 @@ proc getFineTunes*(self: OpenAiClient): JsonNode =
             return resp.body.parseJson()
         of $Http401:
             raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
+        of $Http429:
+            raise TooManyRequests(msg: "You are being ratelimited")
         else:
             raise newException(Defect, "Unknown error")
 
@@ -28,6 +30,8 @@ proc getFineTune*(self: OpenAiClient, fineTuneId: string): FineTune =
             raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
         of $Http404:
             raise NotFound(msg: "The fine-tune job that you specified does not exist")
+        of $Http429:
+            raise TooManyRequests(msg: "You are being ratelimited")
         else:
             raise newException(Defect, "Unknown error")
 
@@ -43,6 +47,8 @@ proc getFineTuneEvents*(self: OpenAiClient, fineTuneId: string): JsonNode =
             raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
         of $Http404:
             raise NotFound(msg: "The fine-tune job that you specified does not exist")
+        of $Http429:
+            raise TooManyRequests(msg: "You are being ratelimited")
         else:
             raise newException(Defect, "Unknown error")
 
@@ -112,6 +118,8 @@ proc createFineTune*(self: OpenAiClient,
             raise NotFound(msg: "The model that you specified does not exist")
         of $Http400:
             raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
+        of $Http429:
+            raise TooManyRequests(msg: "You are being ratelimited")
         else:
             raise newException(Defect, "Unknown error")
 
@@ -127,5 +135,7 @@ proc cancelFineTune*(self: OpenAiClient, fineTuneId: string): FineTune =
             raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
         of $Http404:
             raise NotFound(msg: "The fine-tune job that you specified does not exist")
+        of $Http429:
+            raise TooManyRequests(msg: "You are being ratelimited")
         else:
             raise newException(Defect, "Unknown error")

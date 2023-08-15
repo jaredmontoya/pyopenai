@@ -40,6 +40,8 @@ proc createImage*(self: OpenAiClient,
             raise NotFound(msg: "The model that you specified does not exist")
         of $Http400:
             raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
+        of $Http429:
+            raise TooManyRequests(msg: "You are being ratelimited")
         else:
             raise newException(Defect, "Unknown error")
 
@@ -87,6 +89,8 @@ proc createImageEdit*(self: OpenAiClient,
             raise NotFound(msg: "The model that you specified does not exist")
         of $Http400:
             raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
+        of $Http429:
+            raise TooManyRequests(msg: "You are being ratelimited")
         else:
             raise newException(Defect, "Unknown error")
 
@@ -127,5 +131,7 @@ proc createImageVariation*(self: OpenAiClient,
             raise NotFound(msg: "The model that you specified does not exist")
         of $Http400:
             raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
+        of $Http429:
+            raise TooManyRequests(msg: "You are being ratelimited")
         else:
             raise newException(Defect, "Unknown error")

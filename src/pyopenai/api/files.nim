@@ -12,6 +12,8 @@ proc getFileList*(self: OpenAiClient): JsonNode =
             return resp.body.parseJson()
         of $Http401:
             raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
+        of $Http429:
+            raise TooManyRequests(msg: "You are being ratelimited")
         else:
             raise newException(Defect, "Unknown error")
 
@@ -39,6 +41,8 @@ proc uploadFile*(self: OpenAiClient,
             raise NotFound(msg: "The file that you specified does not exist")
         of $Http400:
             raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
+        of $Http429:
+            raise TooManyRequests(msg: "You are being ratelimited")
         else:
             raise newException(Defect, "Unknown error")
 
@@ -55,6 +59,8 @@ proc deleteFile*(self: OpenAiClient, fileId: string): JsonNode =
             raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
         of $Http404:
             raise NotFound(msg: "The file that you specified does not exist")
+        of $Http429:
+            raise TooManyRequests(msg: "You are being ratelimited")
         else:
             raise newException(Defect, "Unknown error")
 
@@ -71,6 +77,8 @@ proc getFile*(self: OpenAiClient, fileId: string): JsonNode =
             raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
         of $Http404:
             raise NotFound(msg: "The file that you specified does not exist")
+        of $Http429:
+            raise TooManyRequests(msg: "You are being ratelimited")
         else:
             raise newException(Defect, "Unknown error")
 

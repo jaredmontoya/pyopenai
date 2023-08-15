@@ -14,6 +14,8 @@ proc getModelList*(self: OpenAiClient): JsonNode =
             return resp.body.parseJson()
         of $Http401:
             raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
+        of $Http429:
+            raise TooManyRequests(msg: "You are being ratelimited")
         else:
             raise newException(Defect, "Unknown error")
 
@@ -30,6 +32,8 @@ proc getModel*(self: OpenAiClient, model: string): JsonNode =
             raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
         of $Http404:
             raise NotFound(msg: "The model that you specified does not exist")
+        of $Http429:
+            raise TooManyRequests(msg: "You are being ratelimited")
         else:
             raise newException(Defect, "Unknown error")
 
@@ -44,5 +48,7 @@ proc deleteModel*(self: OpenAiClient, model: string): JsonNode =
             raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
         of $Http404:
             raise NotFound(msg: "The model that you specified does not exist")
+        of $Http429:
+            raise TooManyRequests(msg: "You are being ratelimited")
         else:
             raise newException(Defect, "Unknown error")

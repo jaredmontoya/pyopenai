@@ -20,3 +20,4 @@ type
     NotFound* = ref object of CatchableError
     InvalidApiKey* = ref object of CatchableError
     InvalidParameters* = ref object of CatchableError
+    TooManyRequests* = ref object of CatchableError
