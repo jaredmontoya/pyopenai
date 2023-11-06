@@ -52,7 +52,7 @@ var openai = OpenAiClient(
 
 let response = openai.createCompletion(
   model = "text-davinci-003",
-  prompt = "imo nim is the best programming language",
+  prompt = "nim is the best programming language",
   temperature = 0.6,
   maxTokens = 500
 )
@@ -64,7 +64,7 @@ echo()
 var chatMessages: seq[JsonNode]
 
 chatMessages.add(
-  %*{"role": "user", "content": "imo nim is the best programming language"}
+  %*{"role": "user", "content": "nim is the best programming language"}
 )
 
 let resp = openai.createChatCompletion(
