@@ -20,70 +20,71 @@ proc createCompletion*(self: OpenAiClient,
     bestOf: uint = 1,
     logitBias: JsonNode = %false,
     user = ""
-    ): Completions =
-    ## creates ``Completions``
+  ): Completions =
+  ## creates ``Completions``
 
-    var body = %*{
-        "model": model
-    }
+  var body = %*{
+    "model": model
+  }
 
-    if prompt != "":
-        body.add("prompt", %prompt)
+  if prompt != "":
+    body.add("prompt", %prompt)
 
-    if suffix != "":
-        body.add("suffix", %suffix)
+  if suffix != "":
+    body.add("suffix", %suffix)
 
-    if maxTokens != 0:
-        body.add("max_tokens", %maxTokens)
+  if maxTokens != 0:
+    body.add("max_tokens", %maxTokens)
 
-    if temperature != 1.0:
-        body.add("temperature", %temperature)
+  if temperature != 1.0:
+    body.add("temperature", %temperature)
 
-    if topP != 1.0:
-        body.add("top_p", %topP)
+  if topP != 1.0:
+    body.add("top_p", %topP)
 
-    if n != 1:
-        body.add("n", %n)
+  if n != 1:
+    body.add("n", %n)
 
-    if logprobs != 0:
-        body.add("logprobs", %logprobs)
+  if logprobs != 0:
+    body.add("logprobs", %logprobs)
 
-    if promptEcho != false:
-        body.add("echo", %promptEcho)
+  if promptEcho != false:
+    body.add("echo", %promptEcho)
 
-    if len(stop) != 0:
-        body.add("stop", %stop)
+  if len(stop) != 0:
+    body.add("stop", %stop)
 
-    if presencePenalty != 0.0:
-        body.add("presence_penalty", %presencePenalty)
+  if presencePenalty != 0.0:
+    body.add("presence_penalty", %presencePenalty)
 
-    if frequencyPenalty != 0.0:
-        body.add("frequency_penalty", %frequencyPenalty)
+  if frequencyPenalty != 0.0:
+    body.add("frequency_penalty", %frequencyPenalty)
 
-    if bestOf != 1:
-        body.add("best_of", %bestOf)
+  if bestOf != 1:
+    body.add("best_of", %bestOf)
 
-    if logitBias != %false:
-        body.add("logit_bias", %logitBias)
+  if logitBias != %false:
+    body.add("logit_bias", %logitBias)
 
-    if user != "":
-        body.add("user", %user)
+  if user != "":
+    body.add("user", %user)
 
-    let resp = buildHttpClient(self, "application/json").post(
-            self.apiBase&"/completions", body = $body)
-    case resp.status
-        of $Http200:
-            return resp.body.parseJson()
-        of $Http401:
-            raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
-        of $Http404:
-            raise NotFound(msg: "The model that you specified does not exist")
-        of $Http400:
-            raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
-        of $Http429:
-            raise TooManyRequests(msg: "You are being ratelimited")
-        else:
-            raise newException(Defect, "Unknown error")
+  let resp = buildHttpClient(self, "application/json").post(
+    self.apiBase&"/completions", body = $body
+  )
+  case resp.status
+    of $Http200:
+      return resp.body.parseJson()
+    of $Http401:
+      raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
+    of $Http404:
+      raise NotFound(msg: "The model that you specified does not exist")
+    of $Http400:
+      raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
+    of $Http429:
+      raise TooManyRequests(msg: "You are being ratelimited")
+    else:
+      raise newException(Defect, "Unknown error")
 
 
 proc createChatCompletion*(self: OpenAiClient,
@@ -98,53 +99,54 @@ proc createChatCompletion*(self: OpenAiClient,
     frequencyPenalty = 0.0,
     logitBias: JsonNode = %false,
     user = ""
-    ): ChatCompletions =
-    ## creates ``ChatCompletions``
+  ): ChatCompletions =
+  ## creates ``ChatCompletions``
 
-    var body = %*{
-        "model": model,
-        "messages": messages
-    }
+  var body = %*{
+    "model": model,
+    "messages": messages
+  }
 
-    if temperature != 1.0:
-        body.add("temperature", %temperature)
+  if temperature != 1.0:
+    body.add("temperature", %temperature)
 
-    if topP != 1.0:
-        body.add("top_p", %topP)
+  if topP != 1.0:
+    body.add("top_p", %topP)
 
-    if n != 1:
-        body.add("n", %n)
+  if n != 1:
+    body.add("n", %n)
 
-    if stop != "":
-        body.add("stop", %stop)
+  if stop != "":
+    body.add("stop", %stop)
 
-    if maxTokens != 0:
-        body.add("max_tokens", %maxTokens)
+  if maxTokens != 0:
+    body.add("max_tokens", %maxTokens)
 
-    if presencePenalty != 0.0:
-        body.add("presence_penalty", %presencePenalty)
+  if presencePenalty != 0.0:
+    body.add("presence_penalty", %presencePenalty)
 
-    if frequencyPenalty != 0.0:
-        body.add("frequency_penalty", %frequencyPenalty)
+  if frequencyPenalty != 0.0:
+    body.add("frequency_penalty", %frequencyPenalty)
 
-    if logitBias != %false:
-        body.add("logit_bias", %logitBias)
+  if logitBias != %false:
+    body.add("logit_bias", %logitBias)
 
-    if user != "":
-        body.add("user", %user)
+  if user != "":
+    body.add("user", %user)
 
-    let resp = buildHttpClient(self, "application/json").post(
-            self.apiBase&"/chat/completions", body = $body)
-    case resp.status
-        of $Http200:
-            return resp.body.parseJson()
-        of $Http401:
-            raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
-        of $Http404:
-            raise NotFound(msg: "The model that you specified does not exist")
-        of $Http400:
-            raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
-        of $Http429:
-            raise TooManyRequests(msg: "You are being ratelimited")
-        else:
-            raise newException(Defect, "Unknown error")
+  let resp = buildHttpClient(self, "application/json").post(
+    self.apiBase&"/chat/completions", body = $body
+  )
+  case resp.status
+    of $Http200:
+      return resp.body.parseJson()
+    of $Http401:
+      raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
+    of $Http404:
+      raise NotFound(msg: "The model that you specified does not exist")
+    of $Http400:
+      raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
+    of $Http429:
+      raise TooManyRequests(msg: "You are being ratelimited")
+    else:
+      raise newException(Defect, "Unknown error")

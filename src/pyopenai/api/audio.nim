@@ -10,39 +10,40 @@ proc createAudioTranscription*(self: OpenAiClient,
     prompt = "",
     temperature = 0.0,
     language = ""
-    ): string =
-    # creates an audio file's transcription
+  ): string =
+  # creates an audio file's transcription
 
-    var data = MultipartData()
+  var data = MultipartData()
 
-    data.add({"model": model})
+  data.add({"model": model})
 
-    data.addFiles({"file": file})
+  data.addFiles({"file": file})
 
-    if prompt != "":
-        data.add({"prompt": prompt})
-    
-    if temperature != 0.0:
-        data.add({"temperature": $temperature})
+  if prompt != "":
+    data.add({"prompt": prompt})
 
-    if language != "":
-        data.add({"language": language})
+  if temperature != 0.0:
+    data.add({"temperature": $temperature})
 
-    let resp = buildHttpClient(self, "multipart/form-data").post(
-            self.apiBase&"/audio/transcriptions", multipart = data)
-    case resp.status
-        of $Http200:
-            return resp.body.parseJson()["text"].str
-        of $Http401:
-            raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
-        of $Http404:
-            raise NotFound(msg: "The model that you specified does not exist")
-        of $Http400:
-            raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
-        of $Http429:
-            raise TooManyRequests(msg: "You are being ratelimited")
-        else:
-            raise newException(Defect, "Unknown error")
+  if language != "":
+    data.add({"language": language})
+
+  let resp = buildHttpClient(self, "multipart/form-data").post(
+    self.apiBase&"/audio/transcriptions", multipart = data
+  )
+  case resp.status
+    of $Http200:
+      return resp.body.parseJson()["text"].str
+    of $Http401:
+      raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
+    of $Http404:
+      raise NotFound(msg: "The model that you specified does not exist")
+    of $Http400:
+      raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
+    of $Http429:
+      raise TooManyRequests(msg: "You are being ratelimited")
+    else:
+      raise newException(Defect, "Unknown error")
 
 
 proc createAudioTranslation*(self: OpenAiClient,
@@ -50,33 +51,34 @@ proc createAudioTranslation*(self: OpenAiClient,
     model: string,
     prompt = "",
     temperature = 0.0
-    ): string =
-    # creates an audio file's translation to english
+  ): string =
+  # creates an audio file's translation to english
 
-    var data = MultipartData()
+  var data = MultipartData()
 
-    data.add({"model": model})
+  data.add({"model": model})
 
-    data.addFiles({"file": file})
+  data.addFiles({"file": file})
 
-    if prompt != "":
-        data.add({"prompt": prompt})
-    
-    if temperature != 0.0:
-        data.add({"temperature": $temperature})
+  if prompt != "":
+    data.add({"prompt": prompt})
 
-    let resp = buildHttpClient(self, "multipart/form-data").post(
-            self.apiBase&"/audio/translations", multipart = data)
-    case resp.status
-        of $Http200:
-            return resp.body.parseJson()["text"].str
-        of $Http401:
-            raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
-        of $Http404:
-            raise NotFound(msg: "The model that you specified does not exist")
-        of $Http400:
-            raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
-        of $Http429:
-            raise TooManyRequests(msg: "You are being ratelimited")
-        else:
-            raise newException(Defect, "Unknown error")
+  if temperature != 0.0:
+    data.add({"temperature": $temperature})
+
+  let resp = buildHttpClient(self, "multipart/form-data").post(
+    self.apiBase&"/audio/translations", multipart = data
+  )
+  case resp.status
+    of $Http200:
+      return resp.body.parseJson()["text"].str
+    of $Http401:
+      raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
+    of $Http404:
+      raise NotFound(msg: "The model that you specified does not exist")
+    of $Http400:
+      raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
+    of $Http429:
+      raise TooManyRequests(msg: "You are being ratelimited")
+    else:
+      raise newException(Defect, "Unknown error")

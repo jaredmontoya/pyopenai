@@ -11,7 +11,7 @@ An attempt to reimplement python OpenAI API bindings in nim
 - async not implemented
 - not fully tested so if you encounter errors open an issue
 
-If you need features that are not implemented yet, try [openaiclient](https://nimble.directory/pkg/openaiclient) but at the time of writing this, it's nimble package is broken and cannot be used as it has no sources in it, so you have to download and import sources manually.
+If you need features that are not implemented yet, try [openaiclient](https://nimble.directory/pkg/openaiclient)
 
 ### What is implemented
 
@@ -46,13 +46,15 @@ nimble install pyopenai
 ```nim
 import pyopenai, json, os
 
-var openai = newOpenAiClient(getEnv("OPENAI_API_KEY"))
+var openai = OpenAiClient(
+  apiKey: getEnv("OPENAI_API_KEY")
+)
 
 let response = openai.createCompletion(
-    model = "text-davinci-003",
-    prompt = "imo nim is the best programming language",
-    temperature = 0.6,
-    maxTokens = 500
+  model = "text-davinci-003",
+  prompt = "imo nim is the best programming language",
+  temperature = 0.6,
+  maxTokens = 500
 )
 
 echo(response["choices"][0]["text"].str)
@@ -62,18 +64,18 @@ echo()
 var chatMessages: seq[JsonNode]
 
 chatMessages.add(
-    %*{"role": "user", "content": "imo nim is the best programming language"}
+  %*{"role": "user", "content": "imo nim is the best programming language"}
 )
 
 let resp = openai.createChatCompletion(
-    model = "gpt-3.5-turbo",
-    messages = chatMessages,
-    temperature = 0.5,
-    maxTokens = 1000
+  model = "gpt-3.5-turbo",
+  messages = chatMessages,
+  temperature = 0.5,
+  maxTokens = 1000
 )
 
 chatMessages.add(
-    resp["choices"][0]["message"]
+  resp["choices"][0]["message"]
 )
 
 echo(resp["choices"][0]["message"]["content"].str)
