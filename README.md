@@ -1,12 +1,10 @@
 # PyOpenAI
-
-![chip](https://img.shields.io/github/languages/top/jaredmontoya/pyopenai?style=flat)
-![chip](https://img.shields.io/github/languages/code-size/jaredmontoya/pyopenai?style=flat)
+![Github top language](https://img.shields.io/github/languages/top/jaredmontoya/pyopenai?style=for-the-badge&logo=nim&color=yellow)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/jaredmontoya/pyopenai?style=for-the-badge)
 
 An attempt to reimplement python OpenAI API bindings in nim
 
 ## Project Status
-
 - streams not implemented
 - async not implemented
 - not fully tested so if you encounter errors open an issue
@@ -14,7 +12,6 @@ An attempt to reimplement python OpenAI API bindings in nim
 If you need features that are not implemented yet, try [openaiclient](https://nimble.directory/pkg/openaiclient)
 
 ### What is implemented
-
 - [Models](https://platform.openai.com/docs/api-reference/models)
 - [Completions](https://platform.openai.com/docs/api-reference/completions)
 - [ChatCompletions](https://platform.openai.com/docs/api-reference/chat)
@@ -27,7 +24,6 @@ If you need features that are not implemented yet, try [openaiclient](https://ni
 - [Moderations](https://platform.openai.com/docs/api-reference/moderations)
 
 ## Installation
-
 To install pyopenai, you can simply run
 
 ```bash
@@ -38,11 +34,9 @@ nimble install pyopenai
 - [Nimble repo page](https://nimble.directory/pkg/pyopenai)
 
 ## Requisites
-
 - [Nim](https://nim-lang.org)
 
 ## Example
-
 ```nim
 import pyopenai, json, os
 
