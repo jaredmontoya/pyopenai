@@ -2,5 +2,6 @@ nimcache/
 nimblecache/
 htmldocs/
 
+# Binaries
 tests/t_api
 tests/t_api.exe
