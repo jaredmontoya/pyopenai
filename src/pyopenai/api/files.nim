@@ -23,7 +23,7 @@ proc uploadFile*(self: OpenAiClient,
     file: string,
     purpose: string
   ): JsonNode =
-  # uploads the file to openai
+  ## uploads the file to openai
 
   var data = MultipartData()
 
@@ -50,7 +50,7 @@ proc uploadFile*(self: OpenAiClient,
 
 
 proc deleteFile*(self: OpenAiClient, fileId: string): JsonNode =
-  # deletes the file on openai
+  ## deletes the file on openai
 
   let resp = buildHttpClient(self).delete(
     self.apiBase&"/files/"&fileId
@@ -69,7 +69,7 @@ proc deleteFile*(self: OpenAiClient, fileId: string): JsonNode =
 
 
 proc getFile*(self: OpenAiClient, fileId: string): JsonNode =
-  # gets information about specified file
+  ## gets information about specified file
 
   let resp = buildHttpClient(self).get(
     self.apiBase&"/files/"&fileId
@@ -88,9 +88,9 @@ proc getFile*(self: OpenAiClient, fileId: string): JsonNode =
 
 
 proc downloadFile*(self: OpenAiClient, fileId: string): void =
-  # downloads specified file
+  ## downloads specified file
 
-  let filename: string = self.getFile(fileId)["filename"].str
+  let filename: string = self.getFile(fileId)["filename"].getStr()
 
   try:
     buildHttpClient(self).downloadFile(self.apiBase&"/files/"&fileId&"/content", filename)

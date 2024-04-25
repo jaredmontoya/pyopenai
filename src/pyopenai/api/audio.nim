@@ -11,7 +11,7 @@ proc createAudioTranscription*(self: OpenAiClient,
     temperature = 0.0,
     language = ""
   ): string =
-  # creates an audio file's transcription
+  ## creates an audio file transcription
 
   var data = MultipartData()
 
@@ -33,7 +33,7 @@ proc createAudioTranscription*(self: OpenAiClient,
   )
   case resp.status
     of $Http200:
-      return resp.body.parseJson()["text"].str
+      return resp.body.parseJson()["text"].getStr()
     of $Http401:
       raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
     of $Http404:
@@ -52,7 +52,7 @@ proc createAudioTranslation*(self: OpenAiClient,
     prompt = "",
     temperature = 0.0
   ): string =
-  # creates an audio file's translation to english
+  ## creates an english audio file translation
 
   var data = MultipartData()
 
@@ -71,7 +71,7 @@ proc createAudioTranslation*(self: OpenAiClient,
   )
   case resp.status
     of $Http200:
-      return resp.body.parseJson()["text"].str
+      return resp.body.parseJson()["text"].getStr()
     of $Http401:
       raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
     of $Http404:

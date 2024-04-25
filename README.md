@@ -57,7 +57,7 @@ let response = openai.createCompletion(
   maxTokens = 500
 )
 
-echo(response["choices"][0]["text"].str)
+echo(response["choices"][0]["text"].getStr())
 
 echo()
 
@@ -78,5 +78,5 @@ chatMessages.add(
   resp["choices"][0]["message"]
 )
 
-echo(resp["choices"][0]["message"]["content"].str)
+echo(resp["choices"][0]["message"]["content"].getStr())
 ```
