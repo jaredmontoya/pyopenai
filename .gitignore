@@ -5,3 +5,6 @@ htmldocs/
 # Binaries
 tests/t_api
 tests/t_api.exe
+nimble.develop
+nimble.paths
+nimbledeps
