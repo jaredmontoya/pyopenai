@@ -36,11 +36,11 @@ proc createImage*(self: OpenAiClient,
     of $Http200:
       return resp.body.parseJson()
     of $Http401:
-      raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
+      raise InvalidApiKey(msg: "Invalid API Key")
     of $Http404:
-      raise NotFound(msg: "The model that you specified does not exist")
+      raise NotFound(msg: "Specified model does not exist")
     of $Http400:
-      raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
+      raise InvalidParameters(msg: "Some provided parameters are invalid")
     of $Http429:
       raise TooManyRequests(msg: "You are being ratelimited")
     else:
@@ -86,11 +86,11 @@ proc createImageEdit*(self: OpenAiClient,
     of $Http200:
       return resp.body.parseJson()
     of $Http401:
-      raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
+      raise InvalidApiKey(msg: "Invalid API Key")
     of $Http404:
-      raise NotFound(msg: "The model that you specified does not exist")
+      raise NotFound(msg: "Specified model does not exist")
     of $Http400:
-      raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
+      raise InvalidParameters(msg: "Some provided parameters are invalid")
     of $Http429:
       raise TooManyRequests(msg: "You are being ratelimited")
     else:
@@ -129,11 +129,11 @@ proc createImageVariation*(self: OpenAiClient,
     of $Http200:
       return resp.body.parseJson()
     of $Http401:
-      raise InvalidApiKey(msg: "Provided OpenAI API key is invalid")
+      raise InvalidApiKey(msg: "Invalid API Key")
     of $Http404:
-      raise NotFound(msg: "The model that you specified does not exist")
+      raise NotFound(msg: "Specified model does not exist")
     of $Http400:
-      raise InvalidParameters(msg: "Some of the parameters that you provided are invalid")
+      raise InvalidParameters(msg: "Some provided parameters are invalid")
     of $Http429:
       raise TooManyRequests(msg: "You are being ratelimited")
     else:
